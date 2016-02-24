@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SwimLessonsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SwimLessonsModelStoreContainer">
+          <EntitySet Name="Customers" EntityType="SwimLessonsModel.Store.Customers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Kids" EntityType="SwimLessonsModel.Store.Kids" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LessonDates" EntityType="SwimLessonsModel.Store.LessonDates" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Lessons" EntityType="SwimLessonsModel.Store.Lessons" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fk_Kids" Association="SwimLessonsModel.Store.fk_Kids">
+            <End Role="Kids" EntitySet="Kids" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="fk_KidsCustomLogin" Association="SwimLessonsModel.Store.fk_KidsCustomLogin">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Kids" EntitySet="Kids" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LessonDates" Association="SwimLessonsModel.Store.fk_LessonDates">
+            <End Role="LessonDates" EntitySet="LessonDates" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerLogin" />
+          </Key>
+          <Property Name="CustomerLogin" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="50" />
+          <Property Name="CellPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomePhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Kids">
+          <Key>
+            <PropertyRef Name="CustomerLogin" />
+            <PropertyRef Name="FirstName" />
+          </Key>
+          <Property Name="CustomerLogin" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Age" Type="nvarchar" MaxLength="50" />
+          <Property Name="CurrentLevel" Type="nvarchar" MaxLength="50" />
+          <Property Name="StartLevel" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LessonDates">
+          <Key>
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Hour" />
+          </Key>
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Hour" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Lessons">
+          <Key>
+            <PropertyRef Name="CustomerLogin" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Hour" />
+          </Key>
+          <Property Name="CustomerLogin" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Hour" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="description" Type="nvarchar" />
+          <Property Name="Duration" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="fk_Kids">
+          <End Role="Kids" Type="SwimLessonsModel.Store.Kids" Multiplicity="1" />
+          <End Role="Lessons" Type="SwimLessonsModel.Store.Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kids">
+              <PropertyRef Name="CustomerLogin" />
+              <PropertyRef Name="FirstName" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="CustomerLogin" />
+              <PropertyRef Name="FirstName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_KidsCustomLogin">
+          <End Role="Customers" Type="SwimLessonsModel.Store.Customers" Multiplicity="1" />
+          <End Role="Kids" Type="SwimLessonsModel.Store.Kids" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerLogin" />
+            </Principal>
+            <Dependent Role="Kids">
+              <PropertyRef Name="CustomerLogin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LessonDates">
+          <End Role="LessonDates" Type="SwimLessonsModel.Store.LessonDates" Multiplicity="1" />
+          <End Role="Lessons" Type="SwimLessonsModel.Store.Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonDates">
+              <PropertyRef Name="Date" />
+              <PropertyRef Name="Hour" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="Date" />
+              <PropertyRef Name="Hour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SwimLessonsModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SwimLessonsEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="SwimLessonsModel.Customer" />
+          <EntitySet Name="Kids" EntityType="SwimLessonsModel.Kid" />
+          <EntitySet Name="LessonDates" EntityType="SwimLessonsModel.LessonDate" />
+          <EntitySet Name="Lessons" EntityType="SwimLessonsModel.Lesson" />
+          <AssociationSet Name="fk_KidsCustomLogin" Association="SwimLessonsModel.fk_KidsCustomLogin">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Kids" EntitySet="Kids" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Kids" Association="SwimLessonsModel.fk_Kids">
+            <End Role="Kids" EntitySet="Kids" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LessonDates" Association="SwimLessonsModel.fk_LessonDates">
+            <End Role="LessonDates" EntitySet="LessonDates" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerLogin" />
+          </Key>
+          <Property Name="CustomerLogin" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Address" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="City" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="State" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Zip" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="HomePhone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Comments" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Kids" Relationship="SwimLessonsModel.fk_KidsCustomLogin" FromRole="Customers" ToRole="Kids" />
+        </EntityType>
+        <EntityType Name="Kid">
+          <Key>
+            <PropertyRef Name="CustomerLogin" />
+            <PropertyRef Name="FirstName" />
+          </Key>
+          <Property Name="CustomerLogin" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Age" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CurrentLevel" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="StartLevel" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Customer" Relationship="SwimLessonsModel.fk_KidsCustomLogin" FromRole="Kids" ToRole="Customers" />
+          <NavigationProperty Name="Lessons" Relationship="SwimLessonsModel.fk_Kids" FromRole="Kids" ToRole="Lessons" />
+        </EntityType>
+        <EntityType Name="LessonDate">
+          <Key>
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Hour" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Hour" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Lessons" Relationship="SwimLessonsModel.fk_LessonDates" FromRole="LessonDates" ToRole="Lessons" />
+        </EntityType>
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="CustomerLogin" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Hour" />
+          </Key>
+          <Property Name="CustomerLogin" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Hour" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="description" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
+          <Property Name="Duration" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Kid" Relationship="SwimLessonsModel.fk_Kids" FromRole="Lessons" ToRole="Kids" />
+          <NavigationProperty Name="LessonDate" Relationship="SwimLessonsModel.fk_LessonDates" FromRole="Lessons" ToRole="LessonDates" />
+        </EntityType>
+        <Association Name="fk_KidsCustomLogin">
+          <End Role="Customers" Type="SwimLessonsModel.Customer" Multiplicity="1" />
+          <End Role="Kids" Type="SwimLessonsModel.Kid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerLogin" />
+            </Principal>
+            <Dependent Role="Kids">
+              <PropertyRef Name="CustomerLogin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Kids">
+          <End Role="Kids" Type="SwimLessonsModel.Kid" Multiplicity="1" />
+          <End Role="Lessons" Type="SwimLessonsModel.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kids">
+              <PropertyRef Name="CustomerLogin" />
+              <PropertyRef Name="FirstName" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="CustomerLogin" />
+              <PropertyRef Name="FirstName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LessonDates">
+          <End Role="LessonDates" Type="SwimLessonsModel.LessonDate" Multiplicity="1" />
+          <End Role="Lessons" Type="SwimLessonsModel.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonDates">
+              <PropertyRef Name="Date" />
+              <PropertyRef Name="Hour" />
+            </Principal>
+            <Dependent Role="Lessons">
+              <PropertyRef Name="Date" />
+              <PropertyRef Name="Hour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SwimLessonsModelStoreContainer" CdmEntityContainer="SwimLessonsEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="SwimLessonsModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerLogin" ColumnName="CustomerLogin" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kids">
+            <EntityTypeMapping TypeName="SwimLessonsModel.Kid">
+              <MappingFragment StoreEntitySet="Kids">
+                <ScalarProperty Name="CustomerLogin" ColumnName="CustomerLogin" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="CurrentLevel" ColumnName="CurrentLevel" />
+                <ScalarProperty Name="StartLevel" ColumnName="StartLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LessonDates">
+            <EntityTypeMapping TypeName="SwimLessonsModel.LessonDate">
+              <MappingFragment StoreEntitySet="LessonDates">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lessons">
+            <EntityTypeMapping TypeName="SwimLessonsModel.Lesson">
+              <MappingFragment StoreEntitySet="Lessons">
+                <ScalarProperty Name="CustomerLogin" ColumnName="CustomerLogin" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
