@@ -12,6 +12,7 @@
         <AssociationConnector Association="SwimLessonsModel.fk_KidsCustomLogin" ManuallyRouted="false" />
         <AssociationConnector Association="SwimLessonsModel.fk_Kids" ManuallyRouted="false" />
         <AssociationConnector Association="SwimLessonsModel.fk_LessonDates" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SwimLessonsModel.sysdiagram" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

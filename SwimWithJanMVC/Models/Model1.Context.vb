@@ -26,5 +26,6 @@ Partial Public Class SwimLessonsEntities
     Public Property Kids() As DbSet(Of Kid)
     Public Property LessonDates() As DbSet(Of LessonDate)
     Public Property Lessons() As DbSet(Of Lesson)
+    Public Property sysdiagrams() As DbSet(Of sysdiagram)
 
 End Class
